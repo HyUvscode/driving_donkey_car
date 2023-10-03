@@ -29,27 +29,3 @@ class servo_Class:
         # Set the throttle motor to the neutral position
         self.SetPos(int(370))  # Assuming 0.5 corresponds to the neutral position
         print('Motor stopped.')
-
-# if __name__ == '__main__':
-#     Servo = servo_Class(Channel=0, ZeroOffset=0)
-#     Motor = servo_Class(Channel=1, ZeroOffset=0)
-#     try:
-#         deg = 375
-#         speed = 290
-        
-#         while True:
-#             Servo.SetPos(int(deg))
-#             Motor.SetPos(int(speed)) 
-#             print(deg)
-#             print(speed)
-#             time.sleep(0.1)
-
-#     except KeyboardInterrupt:
-#         print("\nCtl+C")
-#     except Exception as e:
-#         print(str(e))
-#     finally:
-#         Servo.ServorCleanup()
-#         Motor.MotorCleanup()
-
-#         print("\nexit program")
