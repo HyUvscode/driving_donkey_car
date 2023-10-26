@@ -19,7 +19,7 @@ light_status = "Unknown"
 
 def process_frame(frame):
     height, width, _ = frame.shape
-    blob = cv2.dnn.blobFromImage(frame, 1/255.0, (320, 320), swapRB=True, crop=False)
+    blob = cv2.dnn.blobFromImage(frame, 1/255.0, (220, 220), swapRB=True, crop=False)
     net.setInput(blob)
     layer_outputs = net.forward(output_layers)
     detections = []

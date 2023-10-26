@@ -26,12 +26,12 @@ class CarController:
 
     def move_left(self):
         # Turn the car left
-        self.steering_angle = max(-30, self.steering_angle - 10)
+        self.steering_angle = max(-30, self.steering_angle - 5)
         self.servo.SetPos(375 + self.steering_angle)
 
     def move_right(self):
         # Turn the car right
-        self.steering_angle = 15
+        self.steering_angle = max(-30, self.steering_angle + 10)
         self.servo.SetPos(375 + self.steering_angle)
 
 def main(stdscr):

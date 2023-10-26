@@ -11,7 +11,7 @@ cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 # Capture images
 image_count = 0  # Counter for captured images
 image_dir = "dataset"  # Directory to save captured images
-num_images = 10
+num_images = 100
 
 while True:
     # Capture frame from the camera

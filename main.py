@@ -6,8 +6,8 @@ from servor import servo_Class
 
 
 # Load the YOLOv4 Tiny model and class labels
-net = cv2.dnn.readNet("/home/khuy/project/main/traffic_light_detection/weights/best2.weights", "/home/khuy/project/main/traffic_light_detection/cfg/best2.cfg")
-with open("/home/khuy/project/main/traffic_light_detection/names/obj.names", "r") as f:
+net = cv2.dnn.readNet("best2.weights", "best2.cfg")
+with open("obj.names", "r") as f:
     classes = [line.strip() for line in f.readlines()]
 
 # Get the output layer names of the YOLOv4 model
@@ -16,25 +16,31 @@ output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers()]
 
 # Initialize video capture from webcam
 cap = cv2.VideoCapture(0)
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 416)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 416)
 
 
 class CarController:
     def __init__(self):
         self.servo = servo_Class(Channel=0, ZeroOffset=0)
-        self.speed = 290
+        # self.speed = 290
         self.steering_angle = 0
         self.is_moving = False
 
     def move_forward(self):
-        self.steering_angle = 15
+        self.steering_angle = 30
+        self.servo.SetPos(375 + self.steering_angle)
+
+    def slow(self):   
+        self.steering_angle = 25
         self.servo.SetPos(375 + self.steering_angle)
 
     def stop(self):
         # Stop the car
-        self.servo.SetPos(375)  # Assuming 0.5 corresponds to the neutral position
-        self.is_moving = False
+        self.steering_angle = 0  # Assuming 0.5 corresponds to the neutral position
+        self.servo.SetPos(375 + self.steering_angle)
+
+        # self.is_moving = False
 
 car = CarController() 
 
@@ -62,6 +68,8 @@ while True:
                     detected_green_light = True
                 elif classes[class_id] == "red":
                     detected_red_light = True
+                elif classes[class_id] =="yellow":
+                    detected_yellow_light = True
 
     # Determine car action based on traffic light detection
     if detected_green_light:
@@ -74,6 +82,10 @@ while True:
         # Add code here to control the car to stop
         car.stop()
         print("Red Light Detected - Stopping")
+    elif detected_yellow_light:
+        #slow mode
+        car.slow()
+        print("Yellow Light Detected - Slow")
     else:
         # No traffic light detected, do something (optional)
         print("No Traffic Light Detected")
